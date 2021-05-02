@@ -1,8 +1,8 @@
-# Gilfoyle Quotes
+# Quotify
 
 ## What was my goal
 
-I wanted to make a Quotes app, So i made a Gilfoyle Quotes App which contains all the famous quotes of Bertram Gilfoyle from Silicon Valley.
+I wanted to make a Quotes app, which fetches random quotes from an api.
 
 ## Screenshot
 
