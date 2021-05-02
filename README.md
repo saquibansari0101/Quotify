@@ -23,3 +23,8 @@ I wanted to make a Quotes app, which fetches random quotes from an api.
 - How to style Text widgets
 - How to open url in browser by on tap on text
 - How to read and use Flutter Documentation
+
+
+## Credits
+ - App Icons made by Freepik from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+ - Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a>

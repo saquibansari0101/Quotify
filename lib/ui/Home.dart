@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:quote_app/data/quote_model.dart';
-import 'package:quote_app/util/utility.dart';
+import 'package:Quotify/data/quote_model.dart';
+import 'package:Quotify/util/utility.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -52,22 +52,22 @@ class _HomeState extends State<Home> {
                               SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: quoteDetails == null
-                                ? Text(
-                                    message,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Raleway',
-                                        letterSpacing: 0.3),
-                                  )
-                                : Text(
-                                    "“" + quoteDetails[0].q + "”",
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Raleway',
-                                        letterSpacing: 0.3),
-                                  ),
+                                    ? Text(
+                                        message,
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Raleway',
+                                            letterSpacing: 0.3),
+                                      )
+                                    : Text(
+                                        "“" + quoteDetails[0].q + "”",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Raleway',
+                                            letterSpacing: 0.3),
+                                      ),
                               ),
                               SizedBox(
                                 height: 5,
@@ -75,14 +75,16 @@ class _HomeState extends State<Home> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    "~" + quoteDetails[0].a,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Raleway',
-                                        letterSpacing: 0.3),
-                                  ),
+                                  quoteDetails == null
+                                      ? Text("")
+                                      : Text(
+                                          "~" + quoteDetails[0].a,
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Raleway',
+                                              letterSpacing: 0.3),
+                                        ),
                                 ],
                               )
                             ],

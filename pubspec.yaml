@@ -1,4 +1,4 @@
-name: quote_app
+name: Quotify
 description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
@@ -28,11 +28,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_launcher_icons: "^0.7.0"
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path: "assets/launcher/icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -74,3 +80,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
