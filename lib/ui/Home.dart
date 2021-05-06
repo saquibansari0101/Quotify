@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:Quotify/data/quote_model.dart';
 import 'package:Quotify/util/utility.dart';
+import 'package:share/share.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _HomeState extends State<Home> {
   initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+    _getResponse();
   }
 
   @override
@@ -49,6 +51,19 @@ class _HomeState extends State<Home> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        if (quoteDetails != null)
+                                          Share.share(quoteDetails[0].q +
+                                              '\n~' +
+                                              quoteDetails[0].a);
+                                      },
+                                      child: Icon(Icons.ios_share))
+                                ],
+                              ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: quoteDetails == null
