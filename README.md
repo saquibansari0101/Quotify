@@ -27,4 +27,4 @@ I wanted to make a Quotes app, which fetches random quotes from an api.
 
 ## Credits
  - App Icons made by Freepik from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
- - Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a>
+ - Inspirational quotes provided by <a href="https://github.com/lukePeavey/quotable" target="_blank">Quotable API</a>

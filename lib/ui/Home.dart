@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<QuoteModel> quoteDetails;
+  QuoteModel quoteDetails;
   String message = "Click on \"Get Quote\" button to fetch quotes from server.";
 
   @override
@@ -57,9 +55,9 @@ class _HomeState extends State<Home> {
                                   InkWell(
                                       onTap: () {
                                         if (quoteDetails != null)
-                                          Share.share(quoteDetails[0].q +
+                                          Share.share(quoteDetails.content +
                                               '\n~' +
-                                              quoteDetails[0].a);
+                                              quoteDetails.author);
                                       },
                                       child: Icon(Icons.ios_share))
                                 ],
@@ -76,7 +74,7 @@ class _HomeState extends State<Home> {
                                             letterSpacing: 0.3),
                                       )
                                     : Text(
-                                        "“" + quoteDetails[0].q + "”",
+                                        "“" + quoteDetails.content + "”",
                                         style: TextStyle(
                                             fontSize: 25,
                                             fontWeight: FontWeight.bold,
@@ -93,7 +91,7 @@ class _HomeState extends State<Home> {
                                   quoteDetails == null
                                       ? Text("")
                                       : Text(
-                                          "~" + quoteDetails[0].a,
+                                          "~" + quoteDetails.author,
                                           style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
@@ -130,8 +128,8 @@ class _HomeState extends State<Home> {
 
   void _getResponse() async {
     Response response = await ApiClient().getMethodWithoutHeader();
-    List<QuoteModel> quoteModel = quoteModelFromMap(response.body);
-    if (quoteModel.isNotEmpty && quoteModel.length > 0) {
+    QuoteModel quoteModel = quoteModelFromJson(response.body);
+    if ( quoteModel.length > 0) {
       quoteDetails = quoteModel;
     } else {
       setState(() {

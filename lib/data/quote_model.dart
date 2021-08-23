@@ -1,33 +1,50 @@
-// To parse this JSON data, do
-//
-//     final quoteModel = quoteModelFromMap(jsonString);
 
 import 'dart:convert';
 
-List<QuoteModel> quoteModelFromMap(String str) => List<QuoteModel>.from(json.decode(str).map((x) => QuoteModel.fromMap(x)));
+QuoteModel quoteModelFromJson(String str) => QuoteModel.fromJson(json.decode(str));
 
-String quoteModelToMap(List<QuoteModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
+String quoteModelToJson(QuoteModel data) => json.encode(data.toJson());
 
 class QuoteModel {
   QuoteModel({
-    this.q,
-    this.a,
-    this.h,
+    this.id,
+    this.tags,
+    this.content,
+    this.author,
+    this.authorSlug,
+    this.length,
+    this.dateAdded,
+    this.dateModified,
   });
 
-  String q;
-  String a;
-  String h;
+  String id;
+  List<String> tags;
+  String content;
+  String author;
+  String authorSlug;
+  int length;
+  DateTime dateAdded;
+  DateTime dateModified;
 
-  factory QuoteModel.fromMap(Map<String, dynamic> json) => QuoteModel(
-    q: json["q"] == null ? null : json["q"],
-    a: json["a"] == null ? null : json["a"],
-    h: json["h"] == null ? null : json["h"],
+  factory QuoteModel.fromJson(Map<String, dynamic> json) => QuoteModel(
+    id: json["_id"] == null ? null : json["_id"],
+    tags: json["tags"] == null ? null : List<String>.from(json["tags"].map((x) => x)),
+    content: json["content"] == null ? null : json["content"],
+    author: json["author"] == null ? null : json["author"],
+    authorSlug: json["authorSlug"] == null ? null : json["authorSlug"],
+    length: json["length"] == null ? null : json["length"],
+    dateAdded: json["dateAdded"] == null ? null : DateTime.parse(json["dateAdded"]),
+    dateModified: json["dateModified"] == null ? null : DateTime.parse(json["dateModified"]),
   );
 
-  Map<String, dynamic> toMap() => {
-    "q": q == null ? null : q,
-    "a": a == null ? null : a,
-    "h": h == null ? null : h,
+  Map<String, dynamic> toJson() => {
+    "_id": id == null ? null : id,
+    "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x)),
+    "content": content == null ? null : content,
+    "author": author == null ? null : author,
+    "authorSlug": authorSlug == null ? null : authorSlug,
+    "length": length == null ? null : length,
+    "dateAdded": dateAdded == null ? null : "${dateAdded.year.toString().padLeft(4, '0')}-${dateAdded.month.toString().padLeft(2, '0')}-${dateAdded.day.toString().padLeft(2, '0')}",
+    "dateModified": dateModified == null ? null : "${dateModified.year.toString().padLeft(4, '0')}-${dateModified.month.toString().padLeft(2, '0')}-${dateModified.day.toString().padLeft(2, '0')}",
   };
 }
