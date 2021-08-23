@@ -17,14 +17,14 @@ class QuoteModel {
     this.dateModified,
   });
 
-  String id;
-  List<String> tags;
-  String content;
-  String author;
-  String authorSlug;
-  int length;
-  DateTime dateAdded;
-  DateTime dateModified;
+  String? id;
+  List<String>? tags;
+  String? content;
+  String? author;
+  String? authorSlug;
+  int? length;
+  DateTime? dateAdded;
+  DateTime? dateModified;
 
   factory QuoteModel.fromJson(Map<String, dynamic> json) => QuoteModel(
     id: json["_id"] == null ? null : json["_id"],
@@ -39,12 +39,12 @@ class QuoteModel {
 
   Map<String, dynamic> toJson() => {
     "_id": id == null ? null : id,
-    "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x)),
+    "tags": tags == null ? null : List<dynamic>.from(tags!.map((x) => x)),
     "content": content == null ? null : content,
     "author": author == null ? null : author,
     "authorSlug": authorSlug == null ? null : authorSlug,
     "length": length == null ? null : length,
-    "dateAdded": dateAdded == null ? null : "${dateAdded.year.toString().padLeft(4, '0')}-${dateAdded.month.toString().padLeft(2, '0')}-${dateAdded.day.toString().padLeft(2, '0')}",
-    "dateModified": dateModified == null ? null : "${dateModified.year.toString().padLeft(4, '0')}-${dateModified.month.toString().padLeft(2, '0')}-${dateModified.day.toString().padLeft(2, '0')}",
+    "dateAdded": dateAdded == null ? null : "${dateAdded!.year.toString().padLeft(4, '0')}-${dateAdded!.month.toString().padLeft(2, '0')}-${dateAdded!.day.toString().padLeft(2, '0')}",
+    "dateModified": dateModified == null ? null : "${dateModified!.year.toString().padLeft(4, '0')}-${dateModified!.month.toString().padLeft(2, '0')}-${dateModified!.day.toString().padLeft(2, '0')}",
   };
 }

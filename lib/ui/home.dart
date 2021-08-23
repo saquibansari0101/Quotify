@@ -1,4 +1,4 @@
-
+import 'package:Quotify/ui/add_new_quote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  QuoteModel quoteDetails;
+  QuoteModel? quoteDetails;
   String message = "Click on \"Get Quote\" button to fetch quotes from server.";
 
   @override
@@ -31,6 +31,49 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff8ede3),
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text(
+          'Quotify',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            "assets/launcher/icon.png",
+            height: 25,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              iconSize: 30,
+              onPressed: () {},
+              icon: Icon(
+                Icons.book,
+                color: Color(0xff798777),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              iconSize: 30,
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuoteScreen()));
+              },
+              icon: Icon(
+                Icons.add,
+                color: Color(0xff798777),
+              ),
+            ),
+          )
+        ],
+        backgroundColor: Color(0xfff8ede3),
+        elevation: 0,
+      ),
       body: Center(
         child: Container(
           color: Color(0xfff8ede3),
@@ -41,9 +84,7 @@ class _HomeState extends State<Home> {
               children: [
                 Expanded(
                     child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xffbdd2b6)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xffbdd2b6)),
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Column(
@@ -55,9 +96,7 @@ class _HomeState extends State<Home> {
                                   InkWell(
                                       onTap: () {
                                         if (quoteDetails != null)
-                                          Share.share(quoteDetails.content +
-                                              '\n~' +
-                                              quoteDetails.author);
+                                          Share.share(quoteDetails!.content! + '\n~' + quoteDetails!.author!);
                                       },
                                       child: Icon(Icons.ios_share))
                                 ],
@@ -67,19 +106,11 @@ class _HomeState extends State<Home> {
                                 child: quoteDetails == null
                                     ? Text(
                                         message,
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Raleway',
-                                            letterSpacing: 0.3),
+                                        style: Theme.of(context).textTheme.bodyText1,
                                       )
                                     : Text(
-                                        "“" + quoteDetails.content + "”",
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Raleway',
-                                            letterSpacing: 0.3),
+                                        "“" + quoteDetails!.content! + "”",
+                                        style: Theme.of(context).textTheme.bodyText1,
                                       ),
                               ),
                               SizedBox(
@@ -91,31 +122,21 @@ class _HomeState extends State<Home> {
                                   quoteDetails == null
                                       ? Text("")
                                       : Text(
-                                          "~" + quoteDetails.author,
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Raleway',
-                                              letterSpacing: 0.3),
+                                          "~" + quoteDetails!.author!,
+                                          style: Theme.of(context).textTheme.bodyText2,
                                         ),
                                 ],
                               )
                             ],
                           ),
                         ))),
-                TextButton(
+                ElevatedButton(
                     onPressed: _getResponse,
-                    child: Container(
-                      color: Color(0xffa2b29f),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(
-                          "Get Quote",
-                          style: TextStyle(
-                              color: Color(0xfff8ede3),
-                              fontSize: 20,
-                              fontFamily: 'Raleway'),
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "Get Quote",
+                        style: TextStyle(color: Color(0xfff8ede3), fontSize: 20, fontFamily: 'Raleway'),
                       ),
                     ))
               ],
@@ -129,7 +150,7 @@ class _HomeState extends State<Home> {
   void _getResponse() async {
     Response response = await ApiClient().getMethodWithoutHeader();
     QuoteModel quoteModel = quoteModelFromJson(response.body);
-    if ( quoteModel.length > 0) {
+    if (quoteModel.length! > 0) {
       quoteDetails = quoteModel;
     } else {
       setState(() {

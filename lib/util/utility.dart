@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  static ApiClient _instance;
+  static ApiClient? _instance;
   static const BASE_URL = "https://api.quotable.io/random";
 
   factory ApiClient() => _instance ??= new ApiClient._();
