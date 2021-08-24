@@ -136,7 +136,7 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Get Quote",
-                        style: TextStyle(color: Color(0xfff8ede3), fontSize: 20, fontFamily: 'Raleway'),
+                        style: Theme.of(context).textTheme.button,
                       ),
                     ))
               ],
