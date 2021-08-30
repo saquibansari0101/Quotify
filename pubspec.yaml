@@ -29,6 +29,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: "^0.7.0"
+  flutter_gifimage:
+    git:
+      url: https://github.com/saquibansari0101/flutter_gifimage
 
 
 dev_dependencies:

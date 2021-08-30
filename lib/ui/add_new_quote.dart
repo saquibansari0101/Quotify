@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:Quotify/util/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
 
 class AddQuoteScreen extends StatefulWidget {
   const AddQuoteScreen({Key? key}) : super(key: key);
@@ -9,14 +12,18 @@ class AddQuoteScreen extends StatefulWidget {
   _AddQuoteScreenState createState() => _AddQuoteScreenState();
 }
 
-class _AddQuoteScreenState extends State<AddQuoteScreen> {
+class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStateMixin {
   TextEditingController quote = TextEditingController();
   TextEditingController author = TextEditingController();
-
+  late GifController controller;
 
   @override
   void initState() {
-
+    controller = GifController(vsync: this);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      controller.animateTo(24,duration: Duration(milliseconds: 500));
+    });
+    super.initState();
   }
 
   @override
@@ -39,8 +46,10 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> {
         physics: BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Image.asset("assets/gif/cthink1.gif",width: 300,),
+            GifImage(image: AssetImage("assets/gif/cthink1.gif"), controller: controller),
+            // Image.asset("assets/gif/cthink1.gif",width: 300,),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
