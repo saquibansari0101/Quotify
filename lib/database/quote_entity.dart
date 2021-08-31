@@ -7,7 +7,7 @@ class Quote{
 
   final String? quote;
   final String? author;
-  final Sring? tags;
+  final String? tags;
 
   Quote(this.id,this.quote, this.author, this.tags);
 
