@@ -28,7 +28,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_launcher_icons: "^0.7.0"
+  auto_size_text: ^3.0.0-nullsafety.0
+  sqflite: ^2.0.0+4
+  floor: ^1.1.0
   flutter_gifimage:
     git:
       url: https://github.com/saquibansari0101/flutter_gifimage
@@ -37,6 +39,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  floor_generator: ^1.1.0
+  build_runner: ^2.0.0
 
 flutter_icons:
   ios: true

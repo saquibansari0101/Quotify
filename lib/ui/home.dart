@@ -1,4 +1,5 @@
 import 'package:Quotify/ui/add_new_quote.dart';
+import 'package:Quotify/ui/saved_quote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -50,7 +51,9 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(10.0),
             child: IconButton(
               iconSize: 30,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> SavedQuotesScreen()));
+              },
               icon: Icon(
                 Icons.book,
                 color: Color(0xff798777),
