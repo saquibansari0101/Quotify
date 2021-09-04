@@ -7,7 +7,7 @@ abstract class QuoteDao {
   Future<Quote?> findQuoteById(int id);
 
   @Query('SELECT * FROM quote')
-  Future<Quote> findAllQuote();
+  Future<Quote?> findAllQuote();
 
   @Query('SELECT * FROM quote')
   Stream<List<Quote>> findAllQuotesAsStream();
