@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:Quotify/database/quote_dao.dart';
+import 'package:Quotify/database/quote_entity.dart';
 import 'package:Quotify/ui/add_new_quote.dart';
 import 'package:Quotify/ui/saved_quote.dart';
+import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -8,6 +13,11 @@ import 'package:Quotify/util/utility.dart';
 import 'package:share/share.dart';
 
 class Home extends StatefulWidget {
+
+  final QuoteDao quoteDao;
+
+  const Home(this.quoteDao);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -52,7 +62,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               iconSize: 30,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> SavedQuotesScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> SavedQuotesScreen(widget.quoteDao)));
               },
               icon: Icon(
                 Icons.book,
@@ -65,7 +75,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               iconSize: 30,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuoteScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuoteScreen(widget.quoteDao)));
               },
               icon: Icon(
                 Icons.add,
@@ -96,12 +106,24 @@ class _HomeState extends State<Home> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  InkWell(
-                                      onTap: () {
-                                        if (quoteDetails != null)
-                                          Share.share(quoteDetails!.content! + '\n~' + quoteDetails!.author!);
-                                      },
-                                      child: Icon(Icons.ios_share))
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                        onTap: () {
+                                          if (quoteDetails != null)
+                                            _persistQuote();
+                                        },
+                                        child: Icon(Icons.bookmark,size: 35,)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                        onTap: () {
+                                          if (quoteDetails != null)
+                                            Share.share(quoteDetails!.content! + '\n~' + quoteDetails!.author!);
+                                        },
+                                        child: Icon(Icons.ios_share,size: 35,)),
+                                  )
                                 ],
                               ),
                               SingleChildScrollView(
@@ -134,6 +156,13 @@ class _HomeState extends State<Home> {
                           ),
                         ))),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Color(0xff798777),
+                    primary: Color(0xffA2B29F),
+                    onSurface: Color(0xff798777),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                  ),
                     onPressed: _getResponse,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -161,5 +190,18 @@ class _HomeState extends State<Home> {
       });
     }
     setState(() {});
+  }
+
+  Future<void> _persistQuote() async {
+    final quoteText = quoteDetails!.content;
+    final authorName = quoteDetails!.author;
+    if (quoteText!.trim().isEmpty) {
+      log("fuck");
+    } else {
+      final quotem = Quote(id: null, author: authorName, quote: quoteText);
+      await widget.quoteDao.insertQuote(quotem);
+      log("no fuck");
+      // quote.clear();
+    }
   }
 }

@@ -147,10 +147,10 @@ class _$QuoteDao extends QuoteDao {
   Future<Quote?> findQuoteById(int id) async {
     return _queryAdapter.query('SELECT * FROM quote WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Quote(
-            row['id'] as int?,
-            row['quote'] as String?,
-            row['author'] as String?,
-            row['tags'] as String?),
+            id: row['id'] as int?,
+            quote: row['quote'] as String?,
+            author: row['author'] as String?,
+            tags: row['tags'] as String?),
         arguments: [id]);
   }
 
@@ -158,20 +158,20 @@ class _$QuoteDao extends QuoteDao {
   Future<Quote?> findAllQuote() async {
     return _queryAdapter.query('SELECT * FROM quote',
         mapper: (Map<String, Object?> row) => Quote(
-            row['id'] as int?,
-            row['quote'] as String?,
-            row['author'] as String?,
-            row['tags'] as String?));
+            id: row['id'] as int?,
+            quote: row['quote'] as String?,
+            author: row['author'] as String?,
+            tags: row['tags'] as String?));
   }
 
   @override
   Stream<List<Quote>> findAllQuotesAsStream() {
     return _queryAdapter.queryListStream('SELECT * FROM quote',
         mapper: (Map<String, Object?> row) => Quote(
-            row['id'] as int?,
-            row['quote'] as String?,
-            row['author'] as String?,
-            row['tags'] as String?),
+            id: row['id'] as int?,
+            quote: row['quote'] as String?,
+            author: row['author'] as String?,
+            tags: row['tags'] as String?),
         queryableName: 'Quote',
         isView: false);
   }

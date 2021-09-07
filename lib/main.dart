@@ -1,11 +1,23 @@
+import 'package:Quotify/database/app_database.dart';
+import 'package:Quotify/database/quote_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:Quotify/ui/home.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = await $FloorAppDatabase
+      .databaseBuilder('flutter_database.db')
+      .build();
+  final dao = database.quoteDao;
+  runApp(MyApp(dao));
 }
 
 class MyApp extends StatelessWidget {
+
+  final QuoteDao quoteDao;
+
+  const MyApp(this.quoteDao);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,7 +73,7 @@ class MyApp extends StatelessWidget {
                 TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff727272), fontFamily: 'Raleway'),
           ),
           errorColor: Colors.red),
-      home: Home(),
+      home: Home(quoteDao),
     );
   }
 }

@@ -1,12 +1,16 @@
-import 'dart:io';
+import 'dart:developer';
 
+import 'package:Quotify/database/quote_dao.dart';
+import 'package:Quotify/database/quote_entity.dart';
 import 'package:Quotify/util/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
 
 class AddQuoteScreen extends StatefulWidget {
-  const AddQuoteScreen({Key? key}) : super(key: key);
+  final QuoteDao quoteDao;
+
+  const AddQuoteScreen(this.quoteDao, {Key? key}) : super(key: key);
 
   @override
   _AddQuoteScreenState createState() => _AddQuoteScreenState();
@@ -21,7 +25,7 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
   void initState() {
     controller = GifController(vsync: this);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      controller.animateTo(24,duration: Duration(milliseconds: 500));
+      controller.animateTo(24, duration: Duration(milliseconds: 500));
     });
     super.initState();
   }
@@ -81,7 +85,9 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _persistQuote();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,5 +106,19 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
         ),
       ),
     );
+  }
+
+  Future<void> _persistQuote() async {
+    final quoteText = quote.text;
+    final authorName = author.text;
+    if (quoteText.trim().isEmpty) {
+      log("fuck");
+      quote.clear();
+    } else {
+      final quotem = Quote(id: null, author: authorName, quote: quoteText);
+      await widget.quoteDao.insertQuote(quotem);
+      log("no fuck");
+      quote.clear();
+    }
   }
 }

@@ -9,12 +9,15 @@ class Quote{
   final String? author;
   final String? tags;
 
-  Quote(this.id,this.quote, this.author, this.tags);
+  Quote({this.id, this.quote, this.author, this.tags});
 
   @override
   String toString() {
     return 'Quote{id: $id, quote: $quote, author: $author, tags: $tags}';
   }
+
+  @override
+  int get hashCode => id.hashCode ^ quote.hashCode ^ author.hashCode ^ tags.hashCode;
 
 }
 
