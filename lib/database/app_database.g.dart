@@ -177,6 +177,17 @@ class _$QuoteDao extends QuoteDao {
   }
 
   @override
+  Future<Quote?> findIfPresent(String quote) async {
+    return _queryAdapter.query('SELECT * FROM quote WHERE quote = ?1',
+        mapper: (Map<String, Object?> row) => Quote(
+            id: row['id'] as int?,
+            quote: row['quote'] as String?,
+            author: row['author'] as String?,
+            tags: row['tags'] as String?),
+        arguments: [quote]);
+  }
+
+  @override
   Future<void> insertQuote(Quote quote) async {
     await _quoteInsertionAdapter.insert(quote, OnConflictStrategy.abort);
   }

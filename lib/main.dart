@@ -5,15 +5,12 @@ import 'package:Quotify/ui/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final database = await $FloorAppDatabase
-      .databaseBuilder('flutter_database.db')
-      .build();
+  final database = await $FloorAppDatabase.databaseBuilder('flutter_database.db').build();
   final dao = database.quoteDao;
   runApp(MyApp(dao));
 }
 
 class MyApp extends StatelessWidget {
-
   final QuoteDao quoteDao;
 
   const MyApp(this.quoteDao);
@@ -61,16 +58,20 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Raleway',
                 letterSpacing: 0.3),
-            caption:  TextStyle(
+            caption: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Raleway',
                 letterSpacing: 0.3),
             button: TextStyle(color: Color(0xfff8ede3), fontSize: 20, fontFamily: 'Raleway'),
-            subtitle1: TextStyle(fontSize: 16,color: Color(0xffA2B29F), fontFamily: 'Raleway'),
+            subtitle1: TextStyle(fontSize: 30, color: Color(0xffA2B29F), fontFamily: 'Raleway'),
             subtitle2:
                 TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff727272), fontFamily: 'Raleway'),
+          ),
+          snackBarTheme: SnackBarThemeData(
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
           errorColor: Colors.red),
       home: Home(quoteDao),

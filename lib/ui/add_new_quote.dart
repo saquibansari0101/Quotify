@@ -111,14 +111,31 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
   Future<void> _persistQuote() async {
     final quoteText = quote.text;
     final authorName = author.text;
-    if (quoteText.trim().isEmpty) {
-      log("fuck");
-      quote.clear();
-    } else {
+    if (quoteText.trim().isEmpty ) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Is Empty"),
+        ),
+      ));
+    } else if( await widget.quoteDao.findIfPresent(quoteText)!=null){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Already Present In Saved"),
+        ),
+      ));
+    }else {
       final quotem = Quote(id: null, author: authorName, quote: quoteText);
       await widget.quoteDao.insertQuote(quotem);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Saved Successfully"),
+        ),
+      ));
       log("no fuck");
-      quote.clear();
+      // quote.clear();
     }
   }
 }

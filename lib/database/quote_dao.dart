@@ -12,6 +12,9 @@ abstract class QuoteDao {
   @Query('SELECT * FROM quote')
   Stream<List<Quote>> findAllQuotesAsStream();
 
+  @Query('SELECT * FROM quote WHERE quote = :quote')
+  Future<Quote?> findIfPresent(String quote);
+
   @insert
   Future<void> insertQuote(Quote quote);
 

@@ -4,7 +4,6 @@ import 'package:Quotify/database/quote_dao.dart';
 import 'package:Quotify/database/quote_entity.dart';
 import 'package:Quotify/ui/add_new_quote.dart';
 import 'package:Quotify/ui/saved_quote.dart';
-import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -13,7 +12,6 @@ import 'package:Quotify/util/utility.dart';
 import 'package:share/share.dart';
 
 class Home extends StatefulWidget {
-
   final QuoteDao quoteDao;
 
   const Home(this.quoteDao);
@@ -62,7 +60,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               iconSize: 30,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> SavedQuotesScreen(widget.quoteDao)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SavedQuotesScreen(widget.quoteDao)));
               },
               icon: Icon(
                 Icons.book,
@@ -110,10 +108,12 @@ class _HomeState extends State<Home> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: InkWell(
                                         onTap: () {
-                                          if (quoteDetails != null)
-                                            _persistQuote();
+                                          if (quoteDetails != null) _persistQuote();
                                         },
-                                        child: Icon(Icons.bookmark,size: 35,)),
+                                        child: Icon(
+                                          Icons.bookmark,
+                                          size: 35,
+                                        )),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -122,7 +122,10 @@ class _HomeState extends State<Home> {
                                           if (quoteDetails != null)
                                             Share.share(quoteDetails!.content! + '\n~' + quoteDetails!.author!);
                                         },
-                                        child: Icon(Icons.ios_share,size: 35,)),
+                                        child: Icon(
+                                          Icons.ios_share,
+                                          size: 35,
+                                        )),
                                   )
                                 ],
                               ),
@@ -156,13 +159,12 @@ class _HomeState extends State<Home> {
                           ),
                         ))),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    onPrimary: Color(0xff798777),
-                    primary: Color(0xffA2B29F),
-                    onSurface: Color(0xff798777),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                  ),
+                    style: ElevatedButton.styleFrom(
+                        onPrimary: Color(0xff798777),
+                        primary: Color(0xffA2B29F),
+                        onSurface: Color(0xff798777),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                     onPressed: _getResponse,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -195,11 +197,29 @@ class _HomeState extends State<Home> {
   Future<void> _persistQuote() async {
     final quoteText = quoteDetails!.content;
     final authorName = quoteDetails!.author;
-    if (quoteText!.trim().isEmpty) {
-      log("fuck");
-    } else {
+    if (quoteText!.trim().isEmpty ) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Is Empty"),
+        ),
+      ));
+    } else if( await widget.quoteDao.findIfPresent(quoteText)!=null){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Already Present In Saved"),
+        ),
+      ));
+    }else {
       final quotem = Quote(id: null, author: authorName, quote: quoteText);
       await widget.quoteDao.insertQuote(quotem);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Quote Saved Successfully"),
+        ),
+      ));
       log("no fuck");
       // quote.clear();
     }
