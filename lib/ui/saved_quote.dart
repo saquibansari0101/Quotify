@@ -6,6 +6,7 @@ import 'package:Quotify/util/size_config.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share/share.dart';
 
 class SavedQuotesScreen extends StatefulWidget {
@@ -69,6 +70,7 @@ class _SavedQuotesScreenState extends State<SavedQuotesScreen> {
                               isClicked = false;
                             });
                             _showModalSheet(index, quotes[index]);
+
                             // print(SizeConfig.screenHeight);
                           },
                           child: Padding(
@@ -100,9 +102,6 @@ class _SavedQuotesScreenState extends State<SavedQuotesScreen> {
   }
 
   void _showModalSheet(int index, Quote quote) {
-    final key1 = UniqueKey();
-    final key2 = UniqueKey();
-
     showModalBottomSheet(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         context: context,
@@ -121,16 +120,6 @@ class _SavedQuotesScreenState extends State<SavedQuotesScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          isClicked!
-                              ? Container(
-                                  key: key1,
-                                  height: 10,
-                                  width: 10,
-                                  color: Colors.blueAccent,
-                                )
-                              : Container(
-                                  key: key2,
-                                ),
                           IconButton(
                             icon: Icon(
                               Icons.copy_rounded,
@@ -139,6 +128,15 @@ class _SavedQuotesScreenState extends State<SavedQuotesScreen> {
                             ),
                             onPressed: () {
                               Clipboard.setData(ClipboardData(text: quote.quote));
+                              Fluttertoast.showToast(
+                                  msg: "Quote Copied To Clipboard",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Theme.of(context).primaryColor,
+                                  fontSize: 16.0
+                              );
                               setState(() {
                                 isClicked = true;
                                 log("Han click kiya hai");
