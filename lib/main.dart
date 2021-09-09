@@ -65,9 +65,9 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Raleway',
                 letterSpacing: 0.3),
             button: TextStyle(color: Color(0xfff8ede3), fontSize: 20, fontFamily: 'Raleway'),
-            subtitle1: TextStyle(fontSize: 30, color: Color(0xffA2B29F), fontFamily: 'Raleway'),
+            subtitle1: TextStyle(fontWeight:FontWeight.bold,fontSize: 30, color: Color(0xffA2B29F), fontFamily: 'Raleway'),
             subtitle2:
-                TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff727272), fontFamily: 'Raleway'),
+                TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xff727272), fontFamily: 'Raleway'),
           ),
           snackBarTheme: SnackBarThemeData(
             behavior: SnackBarBehavior.floating,

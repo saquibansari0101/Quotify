@@ -17,8 +17,13 @@ class AddQuoteScreen extends StatefulWidget {
 }
 
 class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStateMixin {
+
   TextEditingController quote = TextEditingController();
   TextEditingController author = TextEditingController();
+
+  final GlobalKey<FormFieldState> _quoteFormKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _authorFormKey = GlobalKey<FormFieldState>();
+
   late GifController controller;
 
   @override
@@ -64,6 +69,17 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: customTextFormField(
+                  validatorString: "Please Write Quote In The Box",
+                  key: _quoteFormKey,
+                  onChanged: (value){
+                    setState(() {
+                      _quoteFormKey.currentState!.validate();
+                    });
+                  },
+                  validator: (value) {
+                    RegExp regex = new RegExp(r"^[a-zA-Z ,.'-]+$");
+                    return (regex.hasMatch(value!)) ? null : 'Please Write Quote In The Box';
+                  },
                   readOnly: false,
                   labelText: "Quote",
                   hintText: "Quote",
@@ -76,6 +92,17 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
             Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: customTextFormField(
+                    validatorString: "Please Write Author's Name In The Box",
+                    key: _authorFormKey,
+                    onChanged: (value){
+                      setState(() {
+                        _authorFormKey.currentState!.validate();
+                      });
+                    },
+                    validator: (value) {
+                      RegExp regex = new RegExp(r"^[a-zA-Z ,.'-]+$");
+                      return (regex.hasMatch(value!)) ? null : 'Please Enter Valid Author\'s Name';
+                    },
                     readOnly: false,
                     labelText: "Author",
                     hintText: "Author",
@@ -111,21 +138,21 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> with TickerProviderStat
   Future<void> _persistQuote() async {
     final quoteText = quote.text;
     final authorName = author.text;
-    if (quoteText.trim().isEmpty ) {
+    if (quoteText.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text("Quote Is Empty"),
         ),
       ));
-    } else if( await widget.quoteDao.findIfPresent(quoteText)!=null){
+    } else if (await widget.quoteDao.findIfPresent(quoteText) != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text("Quote Already Present In Saved"),
         ),
       ));
-    }else {
+    } else {
       final quotem = Quote(id: null, author: authorName, quote: quoteText);
       await widget.quoteDao.insertQuote(quotem);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

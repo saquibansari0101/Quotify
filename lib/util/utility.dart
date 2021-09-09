@@ -36,14 +36,14 @@ Widget customTextFormField(
     String? suffixText,
     bool? enabled,
     int? maxLength,
-    int? maxLines}) {
+    int? maxLines,
+      FormFieldValidator<String>? validator,
+    ValueChanged<String>? onChanged,
+    Key? key}) {
   return TextFormField(
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return validatorString;
-      }
-      return null;
-    },
+    key: key,
+    onChanged: onChanged,
+    validator: validator,
     minLines: 1,
     maxLines: maxLines,
     onTap: onTap,
